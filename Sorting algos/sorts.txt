@@ -1,0 +1,595 @@
+// sorting pratice
+#include<iostream>
+using namespace std;
+
+void swap(int *n1,int *n2)
+{
+	
+	int temp;
+	temp=*n1;
+	*n1=*n2;
+	*n2=temp;
+	
+	
+	
+}
+
+void bubble_sort(int *p,int n)
+{
+	
+	
+	for(int round=0;round<n;round++)
+     {
+           
+        for(int i=0;i<n-round-1;i++)
+		{
+		 if(p[i]>p[i+1])
+		 {
+		   swap(&p[i],&p[i+1])	;
+		 }	
+		   	
+		}		   
+	}	
+	
+}
+
+void insertion_sort(int *p,int n)
+{
+	int j=0;
+	int temp;
+	for(int i=0;i<n;i++)
+     {
+           temp=p[i];
+        for(j=i-1;j>=0&&p[j]>temp;j--)
+		{
+			p[j+1]=p[j];
+		   	
+		}
+		p[j+1]=temp;		   
+	}	
+	
+}
+
+void selection_sort(int *p,int n)
+{
+	
+	int index;
+	for(int i=0;i<n;i++)
+     {		   
+	    index=i;
+	    
+	    for(int j=i+1;j<n;j++)
+	    {
+	    	if(p[j]<p[index])
+	    	{
+	    		index=j;
+			}
+	    	
+	    	
+		}
+		swap(&p[i],&p[index]);
+	 
+	 
+	 
+	 }	
+	
+}
+void print(int *p,int n)
+{
+	
+	
+	for(int i=0;i<n;i++)
+	cout<<p[i]<<" ";
+}
+
+
+void Merge(int *p,int *l,int *r,int n)
+{
+	
+ int nl=n/2; 
+ int nr=n-nl;
+ 
+ 
+ int i=0,j=0,k=0;
+ 
+ 
+ while(i<nl&&j<nr)
+ {
+ 	
+ 	if(l[i]<=r[j])
+ 	{
+ 	 p[k]=l[i];
+	  k++;
+	  i++;	
+ 	}
+ 	else
+ 	{
+ 	  p[k]=r[j];
+	   k++;
+	   j++;	
+	}
+ }
+
+ 	while(i<nl)
+ 	{
+ 		p[k]=l[i];i++;k++;
+ 	}
+ 	
+ 	while(j<nr)
+ 	{
+ 		p[k]=r[j];j++;k++;
+ 	}
+	
+}
+	
+	
+void Merge_sort(int *p,int n)
+{
+	
+	if(n<2)
+	return;
+	
+	int mid=n/2;
+	int l[mid];
+	int r[n-mid];
+	
+	for(int i=0;i<mid;i++)
+	{
+		l[i]=p[i];
+	}
+	
+	
+	for(int i=mid;i<n;i++)
+	{
+		r[i-mid]=p[i];
+	}
+	
+	
+	Merge_sort(l,mid);
+	Merge_sort(r,n-mid);
+	Merge(p,l,r,n);
+	
+}
+
+int partition(int *p,int start,int end)
+{
+	
+	int pindex=start;
+	int pivot=p[end];
+
+
+
+   for(int i=start;i<end;i++)
+   {
+   	
+   	   if(p[i]<=pivot)
+   	   {
+   	      swap(&p[i],&p[pindex]);
+   	      pindex=pindex+1;
+   	   }
+   	
+   	
+   }
+   swap(&p[end],&p[pindex]);
+   return pindex;
+}
+
+
+Quick_sort(int *p,int start,int end)
+{
+	
+	
+	if(start<end)
+	{
+		
+		int pivot=partition(p,start,end);
+		Quick_sort(p,start,pivot-1);
+		Quick_sort(p,pivot+1,end);
+	}
+}
+
+
+
+
+int main()
+{
+	
+	int array1[10]={10,9,8,7,6,5,4,3,2,1};
+	cout<<"\nBubble sort:"<<endl;
+	bubble_sort(array1,10);
+	print(array1,10);
+
+
+int array2[10]={10,9,8,7,6,5,4,3,2,1};
+    cout<<"\ninsertion sort:"<<endl;
+	insertion_sort(array2,10);
+	print(array2,10);	
+	
+	int array3[10]={10,9,8,7,6,5,4,3,2,1};
+	cout<<"\nselection sort:"<<endl;
+	selection_sort(array3,10);
+	print(array3,10);	
+	
+		
+	int array4[10]={10,9,8,7,6,5,4,3,2,1};
+	cout<<"\nMerge sort:"<<endl;
+	Merge_sort(array4,10);
+	print(array4,10);
+	
+		int array5[10]={10,9,8,7,6,5,4,3,2,1};
+	cout<<"\nQuick sort:"<<endl;
+	Quick_sort(array5,0,9);
+	print(array5,10);	
+		
+	
+}
+
+
+
+
+
+
+/***************************************************/
+
+
+
+//counting sort
+
+
+#include<iostream>
+using namespace std;
+
+void counting_sort(long long *p,long long n)
+{
+  long long max=p[0],temp[n],count=0;
+  for(int i=0;i<n;i++)
+  temp[i]=0;
+  
+  for(int i=1;i<n;i++)
+  {
+  	  if(p[i]>max)
+  	  max=p[i];
+  	
+  }
+  
+  int Range[max+1];
+  
+  for(int i=0;i<=max;i++)
+   Range[i]=0;
+   
+   for(int i=0;i<=max;i++)
+   {
+   	  for(int j=0;j<n;j++)
+   	  {
+   	     if(p[j]==i)
+   	     {
+   	     	 count++;
+		 }
+   	  	
+	 }
+	 Range[i]=count;
+	 count=0;
+   	  
+   	
+   }
+  
+   
+   for(int i=1;i<=max;i++)
+   {
+   	 Range[i]=Range[i]+Range[i-1];
+   }
+	
+for(int i=n-1;i>=0;i--)
+{
+	temp[Range[p[i]]-1]=p[i];
+	Range[p[i]]--;
+}
+
+for(int i=0;i<n;i++)
+  p[i]=temp[i];
+	
+}
+
+
+
+
+
+
+
+
+
+int main()
+{
+	int n;
+	cout<<"Enter number of elements:";
+	cin>>n;
+	long long a[n];
+  for(int i=0;i<n;i++)
+  cin>>a[i];
+  counting_sort(a,n);
+  cout<<"\nafter sorting\n";
+for(int i=0;i<n;i++)
+  cout<<a[i]<<" ";
+  return 0;
+  
+}
+	
+	
+	
+	
+/***************************************************/
+
+
+
+//Radix sort
+
+
+#include<iostream>
+using namespace std;
+
+void counting_sort(int  *p1,int  *p2,int n)
+{
+
+int Range[10];
+int count=0;  
+int temp[n];
+
+  
+  for(int i=0;i<=10;i++)
+   Range[i]=0;
+   
+   for(int i=0;i<=10;i++)
+   {
+   	  for(int j=0;j<n;j++)
+   	  {
+   	     if(p1[j]==i)
+   	     {
+   	     	 count++;
+		 }
+   	  	
+	 }
+	 Range[i]=count;
+	 count=0;
+   	  
+   	
+   }
+  
+   
+   for(int i=1;i<=10;i++)
+   {
+   	 Range[i]=Range[i]+Range[i-1];
+   }
+	
+for(int i=n-1;i>=0;i--)
+{
+	temp[Range[p1[i]]-1]=p2[i];
+	Range[p1[i]]--;
+}
+
+for(int i=0;i<n;i++)
+  p2[i]=temp[i];
+	
+}
+void Radix_sort(int *p,int n)
+{
+	int array[n];
+	int max=p[0];
+	int count=0;
+	
+	for(int i=0;i<n;i++)
+	{
+		if(max<p[i])
+		max=p[i];
+    }
+    while(max!=0)
+    {
+    	max=max/10;
+    	count++;
+    	
+    	
+	}
+	int factor=1;
+	
+	for(int i=0;i<count;i++,factor*=10)
+	{
+		
+		for(int j=0;j<n;j++)
+		{
+			array[j]=(p[j]/factor)%10;
+			
+			
+		}
+		
+		counting_sort(array,p,n);
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+
+int main()
+{
+	int n;
+	cout<<"Enter number of elements:";
+	cin>>n;
+	int a[n];
+  for(int i=0;i<n;i++)
+  cin>>a[i];
+ Radix_sort(a,n);
+  cout<<"\nafter sorting\n";
+for(int i=0;i<n;i++)
+  cout<<a[i]<<" ";
+  return 0;
+  
+}
+	
+	
+	
+/**********************************/
+
+//comb sort
+#include<iostream>
+using namespace std;
+
+
+void bubble_sort(int *a,int n)
+{
+	bool x=false;
+	int count=0;
+	int round=0,temp=0;
+	
+	for(round=0;round<n;round++)
+	{
+		  count++;
+		
+		for(int i=0;i<n-round-1;i++)
+		{
+			count++;
+			if(a[i]>a[i+1])
+			{   
+			    x =true;
+				temp=a[i];
+				a[i]=a[i+1];
+				a[i+1]=temp;
+				
+			}
+			
+			
+		}
+		if(x==false)
+		break;
+		
+	}
+	cout<<"Count in bubble:"<<count<<endl;
+	
+}
+
+void comb_sort(int *p,int n)
+{
+	int gap=n,temp=0,i=0,j;
+	gap=gap/1.3;
+	j=gap+i;
+     while(gap>=1)
+     {
+	    while(j<n)
+		{
+		  if(p[i]>p[j])
+		  {
+		  	cout<<"\nSwapping "<<p[i]<<" and "<<p[j]<<endl;
+		  	    temp=p[i];
+				p[i]=p[j];
+				p[j]=temp;
+				
+		  	
+		  }
+		  i++;
+		  j=gap+i;
+		
+		}
+		i=0;
+		gap=gap/1.3;
+		j=gap+i;
+   }
+ //bubble_sort(p,n);
+		
+
+	
+	
+}
+
+
+int main()
+{
+	int n;
+	cout<<"Enter number elements:";
+	cin>>n;
+	int a[n];
+	for(int i=0;i<n;i++)
+	cin>>a[i];
+	
+	comb_sort(a,n);
+	
+		for(int i=0;i<n;i++)
+	cout<<a[i]<<" ";
+	
+}
+
+	
+	
+	
+	
+/**********************************/
+
+//Reversing SLL
+          void reverse()
+		  {  
+            Node *current = head;  
+            Node *prev = NULL, *next = NULL;  
+            while (current != NULL)  {  
+                next=current->next;
+				current->next=prev;
+				prev=current;
+				current=next; 
+}  
+            head = prev;  
+              //reverselist(head);
+}
+	
+	
+
+
+
+/**********************************/
+
+//Reversing DLL
+
+
+
+
+        void reversing(){ 
+            Node<T> *temp = NULL;    
+            Node<T> *current = head;  
+            while (current !=  NULL)  
+{  
+             temp=current->prev;
+             current->prev=current->next;
+             current->next=temp;
+             current=current->prev;
+          
+          
+          
+            }        
+            if(temp != NULL ) { 
+               head = temp->prev;  
+            }
+			temp=head;
+			while(temp->next!=0)
+			{
+			  temp=temp->next;	
+				
+				
+			}
+			tail=temp; 
+       Reverselist(head);
+       
+       
+        }  
+
+
+
+
